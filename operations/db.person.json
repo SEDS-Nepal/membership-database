@@ -1,0 +1,22 @@
+[
+    {
+        "prsn_id": 1,
+        "prsn_joined_date": "12/12/2020",
+        "prsn_position": "member"
+    },
+    {
+        "prsn_id": 2,
+        "prsn_joined_date": "10/03/2022",
+        "prsn_position": "intern"
+    },
+    {
+        "prsn_id": 3,
+        "prsn_joined_date": "10/13/2022",
+        "prsn_position": "cooker"
+    },
+    {
+        "prsn_id": 5,
+        "prsn_joined_date": "2022-10-20",
+        "prsn_position": "extra"
+    }
+]
