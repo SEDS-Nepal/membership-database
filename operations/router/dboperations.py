@@ -113,3 +113,6 @@ def new_register(member: InputMember, college: InputCollege, personnel: InputPer
     db.execute(
         f"INSERT INTO memberstable(firstname,lastname,middlename,email,major,phone_number,college_id,address_id,person_id) VALUES ('{member.firstname}','{member.lastname}','{member.middlename}','{member.email}','{member.major}','{member.phone_number}','{clz_id}','{id1}','{personnel.prsn_id}')")
     db.commit()
+
+# @router.put("/api/{id}")
+# def update_data(id:int,db:Session=Depends(get_db)):
