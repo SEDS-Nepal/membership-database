@@ -1,15 +1,22 @@
 import datetime
 
-from structure import Member, College, Person, load_membersdb, load_collegedb,load_persondb,save_members,save_person,save_college,InputMember,InputPerson
-from fastapi import FastAPI, APIRouter
-from datetime import date
-from sqlmodel import SQLModel
-import json
+from MMSystem.structure import Person, Member, Address, College, InputCollege, InputPerson, InputMember, InputAddress
+from fastapi import FastAPI, APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from MMSystem import model
+from dbconnection import sessionlocal, engine
 
-router=APIRouter()
-mdb=load_membersdb()
-cdb=load_collegedb()
-pdb=load_persondb()
+model.base.metadata.create_all(bind=engine)
+router = APIRouter()
+
+
+def get_db():
+    db = sessionlocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 
 @router.get("/")
 def welcome():
@@ -17,30 +24,92 @@ def welcome():
 
 
 @router.get("/api/members")
-def members()->list[Member]:
-    return mdb
+def get_all_members(db: Session = Depends(get_db)) -> list:
+    return db.execute(
+        f"SELECT mem.id,mem.firstname,mem.middlename,mem.lastname,mem.email,mem.major,mem.phone_number FROM "
+        f"memberstable mem").all()
+
+
+@router.get("/api/members/{id}")
+def get_members_by_id(id: int, db: Session = Depends(get_db)):
+    return db.execute(f"SELECT mem.firstname,mem.middlename,mem.lastname,mem.email,mem.major,mem.phone_number FROM "
+                      f"memberstable mem WHERE mem.id='{id}'").one()
 
 
 @router.get("/api/colleges")
-def colleges():
-    return cdb
+def get_colleges(db: Session = Depends(get_db)):
+    return db.execute(f"SELECT clz.clz_name,clz.clz_address,clz.clz_website FROM membercollege clz").all()
 
 
-@router.get("/api/person")
-def person():
-    return pdb
-
-@router.post("/api/register")
-def new_register(member:InputMember,college:College,personnel:InputPerson):
-    mem=Member(id=member.id,firstname=member.firstname,lastname=member.lastname,M_name=member.M_name,email=member.email,major=member.major,address=member.address,phone_number=member.phone_number, person_id=personnel.prsn_id,college_id=college.clz_id)
-    mdb.append(mem)
-    save_members(mdb)
-
-    cdb.append(college)
-    save_college(cdb)
-
-    prsn=Person(prsn_id=personnel.prsn_id,prsn_position=personnel.prsn_position,prsn_joined_date=f'{date.today()}')
-    pdb.append(prsn)
-    save_person(pdb)
+@router.get("/api/roledetails")
+def get_role_details(db: Session = Depends(get_db)):
+    return db.query(model.Person).all()
 
 
+@router.get("/api/address")
+def get_address(db: Session = Depends(get_db)):
+    return db.execute(f"SELECT adrs.city,adrs.province,adrs.postal_code FROM addressdetails adrs").all()
+
+
+@router.get("/api/alldetails")
+def get_all_details(db: Session = Depends(get_db)):
+    return db.execute(f"SELECT mem.id,mem.firstname,mem.middlename,mem.lastname,mem.email,mem.major,mem.phone_number,"
+                      f"clz.clz_name,clz.clz_address,clz.clz_website,prsn.prsn_id, prsn.prsn_position, "
+                      f"prsn.prsn_joined_date,adrs.city,adrs.province,adrs.postal_code "
+                      f"FROM memberstable mem "
+                      f"INNER JOIN membercollege clz ON clz.clz_id=mem.college_id "
+                      f"INNER JOIN roledetails prsn ON prsn.prsn_id=mem.person_id "
+                      f"INNER JOIN addressdetails adrs ON adrs.address_id=mem.address_id").all()
+
+
+@router.post("/api/new_members")
+def new_register(member: InputMember, college: InputCollege, personnel: InputPerson, address: InputAddress,
+                 db: Session = Depends(get_db)):
+    #  For inserting address and checking if the entered address is already present
+
+    id = db.execute(
+        f"SELECT COUNT(address_id) FROM addressdetails WHERE postal_code='{address.postal_code}' AND city='{address.city}'").one()
+    id1 = int(''.join(map(str, id)))
+    if (id1 == 0):
+        db.execute(
+            f"INSERT INTO addressdetails(city,province,postal_code) VALUES('{address.city}','{address.province}','{address.postal_code}')")
+        db.commit()
+        id = db.execute(
+            f"SELECT address_id FROM addressdetails WHERE postal_code='{address.postal_code}' AND city='{address.city}'").one()
+        id1 = int(''.join(map(str, id)))
+    else:
+        id = db.execute(
+            f"SELECT address_id FROM addressdetails WHERE postal_code='{address.postal_code}' AND city='{address.city}'").one()
+        id1 = int(''.join(map(str, id)))
+
+    #  For inserting and checking the person with the id is already registered as the  member
+
+    cnt = db.execute(f"SELECT COUNT(prsn_id) FROM roledetails WHERE prsn_id='{personnel.prsn_id}'").one()
+    count = int(''.join(map(str, cnt)))
+    if (count == 0):
+        db.execute(
+            f"INSERT INTO roledetails(prsn_id,prsn_position,prsn_joined_date) VALUES('{personnel.prsn_id}','{personnel.prsn_position}','{datetime.datetime.now()}')")
+        db.commit()
+    else:
+        raise HTTPException(status_code=404, detail=f"Person with id = '{personnel.prsn_id}' already exist")
+
+    #    For inserting and checking the entered college is already present in database or not
+
+    clz = db.execute(
+        f"SELECT COUNT(clz_name) FROM membercollege WHERE clz_name='{college.clz_name}' AND clz_website='{college.clz_website}'").one()
+    clz_id = int(''.join(map(str, clz)))
+    if (clz_id == 0):
+        db.execute(
+            f"INSERT INTO membercollege(clz_name,clz_address,clz_website) VALUES ('{college.clz_name}','{college.clz_address}','{college.clz_website}')")
+        db.commit()
+        clz = db.execute(f"SELECT clz_id FROM membercollege WHERE clz_website='{college.clz_website}'").one()
+        clz_id = int(''.join(map(str, clz)))
+    else:
+        clz = db.execute(f"SELECT clz_id FROM membercollege WHERE clz_website='{college.clz_website}'").one()
+        clz_id = int(''.join(map(str, clz)))
+
+    #    For inserting and checking the details of the person if they are already registered as members of SEDS-Nepal
+
+    db.execute(
+        f"INSERT INTO memberstable(firstname,lastname,middlename,email,major,phone_number,college_id,address_id,person_id) VALUES ('{member.firstname}','{member.lastname}','{member.middlename}','{member.email}','{member.major}','{member.phone_number}','{clz_id}','{id1}','{personnel.prsn_id}')")
+    db.commit()
