@@ -1,0 +1,53 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.form{
+    position: relative;
+    margin: 10vh 15vw;
+    padding: 50px  0px;
+    height: 80vh;
+    width: 70vw;
+   
+}
+.formbody{
+    margin-top: 50px;
+    height: 50vh;
+}
+
+.progressbar{
+    border: 1px solid black;
+    height: 10px;
+}
+
+.progressbar div{
+    height: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(0, 0, 0);
+    
+}
+
+button{
+    position: absolute;
+    padding: 8px 25px;
+    border: 1px solid black;
+    border-radius: 6px;
+    color: black;
+    background-color: #fff;
+}
+
+button:hover{
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
+}
+
+.prev{
+    margin-right: 140px;
+    margin-left: 15px ;
+}
+
+.next{
+    right: 12px;
+}
