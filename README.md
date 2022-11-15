@@ -7,7 +7,11 @@ Software to manage members of organizations
 > 2. Setup the PostgreSQL password "s8r2j123"
 > 3. Connect the available server
 > 4. Create the database on that server with name "sedsnepalmembers.db"
-> ### 3. Clone the "backend" folder to your local computer
+> ### 3. Clone the "backend" branch to your local computer
+> 1. Create a folder on your desktop
+> 2. Open gitbash in that folder
+> 3. Initialize the git using the command:&nbsp;git init
+> 4. Clone the "backend" branch in that folder using command:&nbsp;git clone -b backend https://github.com/SEDS-Nepal/membership-database.git
 > ### 4. Set up Pycharm
 > 1. Download and install [Pycharm](https://www.jetbrains.com/pycharm/download/#section=windows)
 > 2. Open the project folder "backend" in pycharm
