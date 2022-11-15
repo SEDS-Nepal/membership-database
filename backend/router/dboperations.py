@@ -1,6 +1,6 @@
 import datetime
 
-from MMSystem.structure import Person, Member, Address, College, InputCollege, InputPerson, InputMember, InputAddress
+from structure import Person, Member, Address, College, InputCollege, InputPerson, InputMember, InputAddress, Updatemember,Updateroledetails,Updatecollege,Updateaddress
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from MMSystem import model
@@ -129,6 +129,45 @@ def update_members(id: int, new_member_data: InputMember, db: Session = Depends(
         return member
     else:
         raise HTTPException(status_code=404, detail=f"No member with id={id}.")
+
+
+@router.patch("/api/update/member")
+def update_member(id:int, member:Updatemember,college:Updatecollege,address:Updateaddress,role:Updateroledetails, db:Session=Depends(get_db)):
+    update_member=db.get(model.Member,id)
+    update_mem=member.dict(exclude_unset=True)
+    for key,value in update_mem.items():
+        if(value!="string"):
+            if(value!=""):
+                setattr(update_member,key,value)
+    db.add(update_member)
+    db.commit()
+    db.refresh(update_member)
+
+    # For updating college
+
+    clz_id = update_member.college_id
+    update_college = db.get(model.College, clz_id)
+    if (college.clz_website=="string" or college.clz_website==""):
+            update_clz=college.dict(exclude_unset=True)
+            for key,value in update_clz.items():
+                if(value!="string"):
+                    if(value!=""):
+                        setattr(update_college,key,value)
+    else:
+        clz = db.execute(
+            f"SELECT COUNT(clz_name) FROM membercollege WHERE clz_website='{college.clz_website}'").one()
+        clz_count = int(''.join(map(str, clz)))
+        if(clz_count==0):
+            update_clz = college.dict(exclude_unset=True)
+            for key, value in update_clz.items():
+                if (value != "string"):
+                    if (value != ""):
+                        setattr(update_college, key, value)
+        # else:
+
+    db.add(update_college)
+    db.commit()
+    db.refresh(update_college)
 
 
 # @router.put("/api/college/{id}")

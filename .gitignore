@@ -1,3 +1,6 @@
+backend/.idea/
+backend/__init__.py
+backend/router/__init__.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
