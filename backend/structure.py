@@ -1,15 +1,12 @@
 from sqlmodel import SQLModel
-from pydantic import BaseModel
-from fastapi import FastAPI
-from datetime import date
 import datetime
 
 
 
 class InputMember(SQLModel):
     firstname: str
+    middlename: str | None = None
     lastname: str
-    M_name: str|None=None
     email: str
     major: str
     phone_number: int

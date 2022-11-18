@@ -10,8 +10,8 @@ class Member(base):
 
     id= Column(Integer,primary_key=True,autoincrement=True)
     firstname=Column(String)
+    middlename = Column(String)
     lastname=Column(String)
-    M_name=Column(String)
     email=Column(String, unique=True)
     major=Column(String)
     phone_number=Column(Integer)
