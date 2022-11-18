@@ -14,7 +14,9 @@ Software to manage members of organizations
 > 4. Clone the "backend" branch in that folder using command:&nbsp;git clone -b backend https://github.com/SEDS-Nepal/membership-database.git
 > ### 4. Set up Pycharm
 > 1. Download and install [Pycharm](https://www.jetbrains.com/pycharm/download/#section=windows)
-> 2. Open the project folder "backend" in pycharm
-> 3. Run this command in the pycharm terminal: pip install -r requirements.txt
+> 2. Open the project folder "backend" as a pycharm project in pycharm
+> 3. Click "ok" on the first popped up message like below
+> ![image](https://user-images.githubusercontent.com/101032943/202765073-ae607702-f2c0-4bfa-bc83-caf8a11afa98.png)
+> 4. Run this command in the pycharm terminal: pip install -r requirements.txt
 > ### 5. Run this command in the pycharm teminal:
 > &nbsp; uvicorn dbinitialize:app --reload
