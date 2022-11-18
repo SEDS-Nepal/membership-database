@@ -3,7 +3,7 @@ import datetime
 from structure import Person, Member, Address, College, InputCollege, InputPerson, InputMember, InputAddress, Updatemember,Updateroledetails,Updatecollege,Updateaddress
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from MMSystem import model
+import model
 from dbconnection import sessionlocal, engine
 
 model.base.metadata.create_all(bind=engine)
@@ -115,20 +115,20 @@ def new_register(member: InputMember, college: InputCollege, personnel: InputPer
     db.commit()
 
 
-@router.put("/api/member/{id}")
-def update_members(id: int, new_member_data: InputMember, db: Session = Depends(get_db)):
-    member = db.query(model.Member).filter(model.Member.id == id).first()
-    if member:
-        member.firstname = new_member_data.firstname
-        member.lastname = new_member_data.lastname
-        member.middlename = new_member_data.middlename
-        member.email = new_member_data.email
-        member.major = new_member_data.email
-        member.phone_number = new_member_data.phone_number
-        db.commit()
-        return member
-    else:
-        raise HTTPException(status_code=404, detail=f"No member with id={id}.")
+# @router.put("/api/member/{id}")
+# def update_members(id: int, new_member_data: InputMember, db: Session = Depends(get_db)):
+#     member = db.query(model.Member).filter(model.Member.id == id).first()
+#     if member:
+#         member.firstname = new_member_data.firstname
+#         member.lastname = new_member_data.lastname
+#         member.middlename = new_member_data.middlename
+#         member.email = new_member_data.email
+#         member.major = new_member_data.email
+#         member.phone_number = new_member_data.phone_number
+#         db.commit()
+#         return member
+#     else:
+#         raise HTTPException(status_code=404, detail=f"No member with id={id}.")
 
 
 @router.patch("/api/update/member")
