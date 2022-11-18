@@ -3,9 +3,7 @@ from pydantic import BaseModel
 from fastapi import FastAPI
 from datetime import date
 import datetime
-from passlib.context import CryptContext
 
-pwd_context= CryptContext(schemes=["bcrypt"])
 
 
 class InputMember(SQLModel):
