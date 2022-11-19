@@ -9,7 +9,7 @@ class InputMember(SQLModel):
     lastname: str
     email: str
     major: str
-    phone_number: int
+    phone_number: str
 
 
 

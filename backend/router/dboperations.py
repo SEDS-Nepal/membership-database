@@ -98,9 +98,9 @@ def new_register(member: InputMember, college: InputCollege, personnel: InputPer
     clz = db.execute(
         f"SELECT COUNT(clz_name) FROM membercollege WHERE clz_name='{college.clz_name}' AND clz_website='{college.clz_website}'").one()
     clz_id = int(''.join(map(str, clz)))
+    print(clz_id)
     if (clz_id == 0):
-        db.execute(
-            f"INSERT INTO membercollege(clz_name,clz_address,clz_website) VALUES ('{college.clz_name}','{college.clz_address}','{college.clz_website}')")
+        db.execute(f"INSERT INTO membercollege(clz_name,clz_address,clz_website) VALUES ('{college.clz_name}','{college.clz_address}','{college.clz_website}')")
         db.commit()
         clz = db.execute(f"SELECT clz_id FROM membercollege WHERE clz_website='{college.clz_website}'").one()
         clz_id = int(''.join(map(str, clz)))

@@ -14,7 +14,7 @@ class Member(base):
     lastname=Column(String)
     email=Column(String, unique=True)
     major=Column(String)
-    phone_number=Column(Integer)
+    phone_number=Column(String)
     person_id=Column(Integer,ForeignKey("roledetails.prsn_id"))
     college_id=Column(Integer,ForeignKey("membercollege.clz_id"))
     address_id=Column(Integer,ForeignKey("addressdetails.address_id"))
