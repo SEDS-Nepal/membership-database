@@ -115,21 +115,6 @@ def new_register(member: InputMember, college: InputCollege, personnel: InputPer
     db.commit()
 
 
-# @router.put("/api/member/{id}")
-# def update_members(id: int, new_member_data: InputMember, db: Session = Depends(get_db)):
-#     member = db.query(model.Member).filter(model.Member.id == id).first()
-#     if member:
-#         member.firstname = new_member_data.firstname
-#         member.lastname = new_member_data.lastname
-#         member.middlename = new_member_data.middlename
-#         member.email = new_member_data.email
-#         member.major = new_member_data.email
-#         member.phone_number = new_member_data.phone_number
-#         db.commit()
-#         return member
-#     else:
-#         raise HTTPException(status_code=404, detail=f"No member with id={id}.")
-
 
 @router.patch("/api/update/member")
 def update_member(id:int, member:Updatemember,college:Updatecollege,address:Updateaddress,role:Updateroledetails, db:Session=Depends(get_db)):
@@ -168,29 +153,3 @@ def update_member(id:int, member:Updatemember,college:Updatecollege,address:Upda
     db.add(update_college)
     db.commit()
     db.refresh(update_college)
-
-
-# @router.put("/api/college/{id}")
-# def update_college(id: int, new_college_data: InputCollege, db: Session = Depends(get_db)):
-#     college = db.query(model.Member).filter(model.Member.id == id).first()
-#     if college:
-#         college.clz_name = new_college_data.clz_name
-#         college.clz_address = new_college_data.clz_address
-#         college.clz_website = new_college_data.clz_website
-#         db.commit()
-#         return college
-#     else:
-#         raise HTTPException(status_code=404, detail=f"No member with id={id}.")
-#
-#
-# @router.put("/api/address/{id}")
-# def update_address(id: int, new_address_data: InputAddress, db: Session = Depends(get_db)):
-#     address = db.query(model.Member).filter(model.Member.id == id).first()
-#     if address:
-#         address.city = new_address_data.city
-#         address.province = new_address_data.province
-#         address.postal_code = new_address_data.postal_code
-#         db.commit()
-#         return address
-#     else:
-#         raise HTTPException(status_code=404, detail=f"No member with id={id}.")

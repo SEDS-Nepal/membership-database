@@ -55,7 +55,7 @@ class Member(InputMember):
 class Updatemember(SQLModel):
     firstname:str|None=None
     lastname: str|None=None
-    M_name: str | None = None
+    middlename: str | None = None
     email: str|None=None
     major: str|None=None
     phone_number: int|None=None
