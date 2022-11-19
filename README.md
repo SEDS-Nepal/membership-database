@@ -11,7 +11,7 @@ Software to manage members of organizations
 > 1. Create a folder on your desktop
 > 2. Open gitbash in that folder
 > 3. Initialize the git using the command:&nbsp;git init
-> 4. Clone the "backend" branch in that folder using command:&nbsp;git clone -b backend https://github.com/SEDS-Nepal/membership-database.git
+> 4. Clone the "backend" branch in that folder using command:&nbsp;git clone https://github.com/SEDS-Nepal/membership-database.git
 > ### 4. Set up Pycharm
 > 1. Download and install [Pycharm](https://www.jetbrains.com/pycharm/download/#section=windows)
 > 2. Open the project folder "backend" as a pycharm project in pycharm
