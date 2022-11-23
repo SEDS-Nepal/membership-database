@@ -1,6 +1,6 @@
 import datetime
 
-from structure import Person, Member, Address, College, InputCollege, InputPerson, InputMember, InputAddress, Updatemember,Updateroledetails,Updatecollege,Updateaddress
+from structure import Person, Member, Address, College, InputCollege, InputPerson, InputMember, InputAddress, Updatemember,Updateroledetails,Updatecollege,Updateaddress, Memberdetails
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 import model
@@ -62,59 +62,6 @@ def get_all_details(db: Session = Depends(get_db)):
                       f"INNER JOIN addressdetails adrs ON adrs.address_id=mem.address_id").all()
 
 
-@router.post("/api/new_members")
-def new_register(member: InputMember, college: InputCollege, personnel: InputPerson, address: InputAddress,
-                 db: Session = Depends(get_db)):
-    #  For inserting address and checking if the entered address is already present
-
-    id = db.execute(
-        f"SELECT COUNT(address_id) FROM addressdetails WHERE postal_code='{address.postal_code}' AND city='{address.city}'").one()
-    id1 = int(''.join(map(str, id)))
-    if (id1 == 0):
-        db.execute(
-            f"INSERT INTO addressdetails(city,province,postal_code) VALUES('{address.city}','{address.province}','{address.postal_code}')")
-        db.commit()
-        id = db.execute(
-            f"SELECT address_id FROM addressdetails WHERE postal_code='{address.postal_code}' AND city='{address.city}'").one()
-        id1 = int(''.join(map(str, id)))
-    else:
-        id = db.execute(
-            f"SELECT address_id FROM addressdetails WHERE postal_code='{address.postal_code}' AND city='{address.city}'").one()
-        id1 = int(''.join(map(str, id)))
-
-    #  For inserting and checking the person with the id is already registered as the  member
-
-    cnt = db.execute(f"SELECT COUNT(prsn_id) FROM roledetails WHERE prsn_id='{personnel.prsn_id}'").one()
-    count = int(''.join(map(str, cnt)))
-    if (count == 0):
-        db.execute(
-            f"INSERT INTO roledetails(prsn_id,prsn_position,prsn_joined_date) VALUES('{personnel.prsn_id}','{personnel.prsn_position}','{datetime.datetime.now()}')")
-        db.commit()
-    else:
-        raise HTTPException(status_code=404, detail=f"Person with id = '{personnel.prsn_id}' already exist")
-
-    #    For inserting and checking the entered college is already present in database or not
-
-    clz = db.execute(
-        f"SELECT COUNT(clz_name) FROM membercollege WHERE clz_name='{college.clz_name}' AND clz_website='{college.clz_website}'").one()
-    clz_id = int(''.join(map(str, clz)))
-    print(clz_id)
-    if (clz_id == 0):
-        db.execute(f"INSERT INTO membercollege(clz_name,clz_address,clz_website) VALUES ('{college.clz_name}','{college.clz_address}','{college.clz_website}')")
-        db.commit()
-        clz = db.execute(f"SELECT clz_id FROM membercollege WHERE clz_website='{college.clz_website}'").one()
-        clz_id = int(''.join(map(str, clz)))
-    else:
-        clz = db.execute(f"SELECT clz_id FROM membercollege WHERE clz_website='{college.clz_website}'").one()
-        clz_id = int(''.join(map(str, clz)))
-
-    #    For inserting and checking the details of the person if they are already registered as members of SEDS-Nepal
-
-    db.execute(
-        f"INSERT INTO memberstable(firstname,lastname,middlename,email,major,phone_number,college_id,address_id,person_id) VALUES ('{member.firstname}','{member.lastname}','{member.middlename}','{member.email}','{member.major}','{member.phone_number}','{clz_id}','{id1}','{personnel.prsn_id}')")
-    db.commit()
-
-
 
 @router.patch("/api/update/member")
 def update_member(id:int, member:Updatemember,college:Updatecollege,address:Updateaddress,role:Updateroledetails, db:Session=Depends(get_db)):
@@ -153,3 +100,83 @@ def update_member(id:int, member:Updatemember,college:Updatecollege,address:Upda
     db.add(update_college)
     db.commit()
     db.refresh(update_college)
+
+
+
+@router.post("/api/new_members/")
+def add_new_members(member:Memberdetails,db:Session=Depends(get_db)):
+    # For inserting the address in addressinfo
+    id = db.execute(
+        f"SELECT COUNT(address_id) FROM addressinfo WHERE postal_code='{member.postal_code}' AND city='{member.city}'").one()
+    addressId = int(''.join(map(str, id)))
+    if (addressId == 0):
+        db.execute(
+            f"INSERT INTO addressinfo(city,province,postal_code) VALUES('{member.city}','{member.province}','{member.postal_code}')")
+        db.commit()
+        id = db.execute(
+            f"SELECT address_id FROM addressinfo WHERE postal_code='{member.postal_code}' AND city='{member.city}'").one()
+        addressId = int(''.join(map(str, id)))
+    else:
+        id = db.execute(
+            f"SELECT address_id FROM addressinfo WHERE postal_code='{member.postal_code}' AND city='{member.city}'").one()
+        addressId = int(''.join(map(str, id)))
+
+
+        #  For inserting and checking the person with the id is already registered as the  member in roleinfo
+
+    cnt = db.execute(f"SELECT COUNT(personsid) FROM roleinfo WHERE personsid='{member.personsid}'").one()
+    count = int(''.join(map(str, cnt)))
+    if (count == 0):
+        db.execute(
+            f"INSERT INTO roleinfo(personsid,position,prsn_joined_date) VALUES('{member.personsid}','{member.position}','{datetime.datetime.now()}')")
+        db.commit()
+    else:
+        raise HTTPException(status_code=404, detail=f"Person with id = '{member.personsid}' already exist")
+
+        #    For inserting and checking the entered college is already present in database or not in collegeinfo
+
+    clz = db.execute(
+        f"SELECT COUNT(college_name) FROM collegeinfo WHERE college_name='{member.college_name}' AND college_website='{member.college_website}'").one()
+    clz_id = int(''.join(map(str, clz)))
+    if (clz_id == 0):
+            db.execute(
+                f"INSERT INTO collegeinfo(college_name,college_address,college_website) VALUES ('{member.college_name}','{member.college_address}','{member.college_website}')")
+            db.commit()
+            clz = db.execute(f"SELECT college_id FROM collegeinfo WHERE college_website='{member.college_website}' AND college_name='{member.college_name}'").one()
+            clz_id = int(''.join(map(str, clz)))
+    else:
+            clz = db.execute(f"SELECT college_id FROM collegeinfo WHERE college_website='{member.college_website}'").one()
+            clz_id = int(''.join(map(str, clz)))
+
+
+    # For inserting and checking if the school is previously registered or not in schoolinfo
+    scl = db.execute(
+        f"SELECT COUNT(school_name) FROM schoolinfo WHERE school_name='{member.school_name}' AND school_website='{member.school_website}'").one()
+    schoolId = int(''.join(map(str, scl)))
+    if (schoolId == 0):
+        db.execute(
+            f"INSERT INTO schoolinfo(school_name,school_address,school_website) VALUES ('{member.school_name}','{member.school_address}','{member.school_website}')")
+        db.commit()
+        scl = db.execute(
+            f"SELECT school_id FROM schoolinfo WHERE school_website='{member.school_website}' AND school_name='{member.school_name}'").one()
+        schoolId = int(''.join(map(str, scl)))
+    else:
+        clz = db.execute(f"SELECT school_id FROM schoolinfo WHERE school_website='{member.school_website}'").one()
+        schoolId= int(''.join(map(str, clz)))
+
+
+    # For inserting the current job of the persons if they are working
+
+    job= db.execute(
+        f"INSERT INTO jobinfo(title,company_name,company_address) VALUES('{member.title}','{member.company_name}','{member.company_address}')"
+    )
+    db.commit()
+    job= db.execute(f"SELECT job_id FROM jobinfo ORDER BY job_id DESC LIMIT 1").one()
+    jobId=int(''.join(map(str,job)))
+
+    # For inserting the member information into membersinfo
+
+    db.execute(
+        f"INSERT INTO memberinfo(first_name,middle_name,last_name,email,education_level,major,number,person_id,college_id,school_id,job_id,address_id) VALUES ('{member.first_name}','{member.middle_name}','{member.last_name}','{member.email}','{member.education_level}','{member.major}','{member.number}','{member.personsid}','{clz_id}','{schoolId}','{jobId}','{addressId}')"
+    )
+    db.commit()

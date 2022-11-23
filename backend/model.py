@@ -1,44 +1,59 @@
-import datetime
-
 from sqlalchemy import Integer,String,Column,ForeignKey,DateTime
 from dbconnection import base
-from sqlalchemy.orm import relationship
 
 
 class Member(base):
-    __tablename__='memberstable'
+    __tablename__='memberinfo'
 
     id= Column(Integer,primary_key=True,autoincrement=True)
-    firstname=Column(String)
-    middlename = Column(String)
-    lastname=Column(String)
+    first_name=Column(String)
+    middle_name = Column(String)
+    last_name=Column(String)
     email=Column(String, unique=True)
+    education_level=Column(String)
     major=Column(String)
-    phone_number=Column(String)
-    person_id=Column(Integer,ForeignKey("roledetails.prsn_id"))
-    college_id=Column(Integer,ForeignKey("membercollege.clz_id"))
-    address_id=Column(Integer,ForeignKey("addressdetails.address_id"))
+    number=Column(String)
+    person_id=Column(String,ForeignKey("roleinfo.personsid"))
+    college_id=Column(Integer,ForeignKey("collegeinfo.college_id"))
+    school_id=Column(Integer,ForeignKey("schoolinfo.school_id"))
+    job_id = Column(Integer, ForeignKey("jobinfo.job_id"))
+    address_id=Column(Integer,ForeignKey("addressinfo.address_id"))
 
 class College(base):
-    __tablename__='membercollege'
+    __tablename__='collegeinfo'
 
-    clz_id=Column(Integer, primary_key=True,autoincrement=True)
-    clz_name=Column(String, unique=True)
-    clz_address=Column(String)
-    clz_website=Column(String)
+    college_id=Column(Integer, primary_key=True,autoincrement=True)
+    college_name=Column(String, unique=True)
+    college_address=Column(String)
+    college_website=Column(String)
 
 class Person(base):
-    __tablename__='roledetails'
+    __tablename__='roleinfo'
 
-    prsn_id=Column(Integer,primary_key=True)
-    prsn_position=Column(String)
+    personsid=Column(String,primary_key=True)
+    position=Column(String)
     prsn_joined_date = Column(DateTime)
 
 class Address(base):
-    __tablename__='addressdetails'
+    __tablename__='addressinfo'
 
     address_id=Column(Integer,primary_key=True,autoincrement=True)
     city=Column(String)
     province=Column(String)
-    postal_code=Column(Integer)
+    postal_code=Column(String)
 
+class School(base):
+    __tablename__='schoolinfo'
+
+    school_id=Column(Integer,autoincrement=True,primary_key=True)
+    school_name=Column(String)
+    school_address=Column(String)
+    school_website=Column(String)
+
+class Job(base):
+    __tablename__='jobinfo'
+
+    job_id=Column(Integer,autoincrement=True,primary_key=True)
+    title=Column(String)
+    company_name=Column(String)
+    company_address=Column(String)
