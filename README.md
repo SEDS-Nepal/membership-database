@@ -1,7 +1,7 @@
 # membership-database
 Software to manage members of organizations
 # How to run the api?
-> ### 1. Install [python 3.10.8](https://www.python.org/downloads/release/python-3108/)
+> ### 1. Install [python 3.10.8](https://www.python.org/downloads/release/python-3108/) and make sure to check the box to add the python.exe to path variable 
 > ### 2. Set up PostgreSQL
 > 1. Download and install the [PostgreSQL](https://www.postgresql.org/download/windows/)
 > 2. Setup the PostgreSQL password "s8r2j123"
@@ -11,7 +11,9 @@ Software to manage members of organizations
 > 1. Create a folder on your desktop
 > 2. Open gitbash in that folder
 > 3. Initialize the git using the command:&nbsp;git init
-> 4. Clone the "backend" branch in that folder using command:&nbsp;git clone -b backend https://github.com/SEDS-Nepal/membership-database.git
+> 4. Clone the repository in that folder using command:&nbsp;git clone https://github.com/SEDS-Nepal/membership-database.git
+> 5. Open gitbash inside the "membership-database" folder
+> 6. Checkout onto the "backend" branch using command: git checkout backend
 > ### 4. Set up Pycharm
 > 1. Download and install [Pycharm](https://www.jetbrains.com/pycharm/download/#section=windows)
 > 2. Open the project folder "backend" as a pycharm project in pycharm
