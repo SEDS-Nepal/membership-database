@@ -23,47 +23,49 @@ def welcome():
     return {'message': "Welcome to SEDS API"}
 
 
-@router.get("/api/members")
+@router.get("/api/members/")
 def get_all_members(db: Session = Depends(get_db)) -> list:
     return db.execute(
-        f"SELECT mem.id,mem.firstname,mem.middlename,mem.lastname,mem.email,mem.major,mem.phone_number FROM "
-        f"memberstable mem").all()
+        f"SELECT mem.id, mem.first_name,mem.middle_name,mem.last_name,mem.email,mem.education_level,mem.major,mem.number FROM memberinfo mem").all()
 
 
 @router.get("/api/members/{id}")
 def get_members_by_id(id: int, db: Session = Depends(get_db)):
-    return db.execute(f"SELECT mem.firstname,mem.middlename,mem.lastname,mem.email,mem.major,mem.phone_number FROM "
-                      f"memberstable mem WHERE mem.id='{id}'").one()
+    return db.execute(f"SELECT mem.id, mem.first_name,mem.middle_name,mem.last_name,mem.email,mem.education_level,mem.major,mem.number FROM memberinfo mem WHERE mem.id='{id}'").one()
 
 
-@router.get("/api/colleges")
+@router.get("/api/colleges/")
 def get_colleges(db: Session = Depends(get_db)):
-    return db.execute(f"SELECT clz.clz_name,clz.clz_address,clz.clz_website FROM membercollege clz").all()
+    return db.execute(f"SELECT clz.college_name,clz.college_address,clz.college_website FROM collegeinfo clz").all()
 
 
-@router.get("/api/roledetails")
+@router.get("/api/roledetails/")
 def get_role_details(db: Session = Depends(get_db)):
     return db.query(model.Person).all()
 
 
-@router.get("/api/address")
+@router.get("/api/address/")
 def get_address(db: Session = Depends(get_db)):
-    return db.execute(f"SELECT adrs.city,adrs.province,adrs.postal_code FROM addressdetails adrs").all()
+    return db.execute(f"SELECT city,province,postal_code FROM addressinfo").all()
 
 
-@router.get("/api/alldetails")
+@router.get("/api/alldetails/")
 def get_all_details(db: Session = Depends(get_db)):
-    return db.execute(f"SELECT mem.id,mem.firstname,mem.middlename,mem.lastname,mem.email,mem.major,mem.phone_number,"
-                      f"clz.clz_name,clz.clz_address,clz.clz_website,prsn.prsn_id, prsn.prsn_position, "
-                      f"prsn.prsn_joined_date,adrs.city,adrs.province,adrs.postal_code "
-                      f"FROM memberstable mem "
-                      f"INNER JOIN membercollege clz ON clz.clz_id=mem.college_id "
-                      f"INNER JOIN roledetails prsn ON prsn.prsn_id=mem.person_id "
-                      f"INNER JOIN addressdetails adrs ON adrs.address_id=mem.address_id").all()
+    return db.execute(f"SELECT mem.id,mem.first_name,mem.middle_name,mem.last_name,mem.email,mem.major,mem.number,"
+                      f"clz.college_name,clz.college_address,clz.college_website,prsn.personsid, prsn.position, "
+                      f"prsn.prsn_joined_date,adrs.city,adrs.province,adrs.postal_code, "
+                      f"scl.school_name,scl.school_address,scl.school_website,"
+                      f"jb.title,jb.company_name,jb.company_address "
+                      f"FROM memberinfo mem "
+                      f"INNER JOIN collegeinfo clz ON clz.college_id=mem.college_id "
+                      f"INNER JOIN roleinfo prsn ON prsn.personsid=mem.person_id "
+                      f"INNER JOIN addressinfo adrs ON adrs.address_id=mem.address_id "
+                      f"INNER JOIN schoolinfo scl ON scl.school_id=mem.school_id "
+                      f"INNER JOIN jobinfo jb ON jb.job_id=mem.job_id").all()
 
 
 
-@router.patch("/api/update/member")
+@router.patch("/api/update/member/")
 def update_member(id:int, member:Updatemember,college:Updatecollege,address:Updateaddress,role:Updateroledetails, db:Session=Depends(get_db)):
     update_member=db.get(model.Member,id)
     update_mem=member.dict(exclude_unset=True)
@@ -103,7 +105,7 @@ def update_member(id:int, member:Updatemember,college:Updatecollege,address:Upda
 
 
 
-@router.post("/api/new_members/")
+@router.post("/api/members/")
 def add_new_members(member:Memberdetails,db:Session=Depends(get_db)):
     # For inserting the address in addressinfo
     id = db.execute(
