@@ -15,9 +15,10 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
            className="form-control" 
            placeholder="First name"
             aria-label="First name"
-             value={formData.firstName} 
+             value={formData.first_name} 
              onChange={(event) => 
-             setFromData({...formData, firstName: event.target.value})} />
+             setFromData({...formData, first_name: event.target.value})} />
+              
         </div>
         <div className="col-md-4">
         <label htmlFor="inputMiddleName4" className="form-label">Middle Name</label>
@@ -26,9 +27,10 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
            className="form-control" 
             placeholder="middle name" 
             aria-label="middle name" 
-            value={formData.middleName} 
+            value={formData.middle_name} 
             onChange={(event) => 
-            setFromData({...formData, middleName: event.target.value})}
+            setFromData({...formData, middle_name: event.target.value})}
+          
             />
         </div>
         <div className="col-md-4">
@@ -38,9 +40,10 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
             className="form-control"
              placeholder="Last name" 
              aria-label="Last name"
-             value={formData.lastName} 
+             value={formData.last_name} 
              onChange={(event) => 
-             setFromData({...formData, lastName: event.target.value})}
+             setFromData({...formData, last_name: event.target.value})}
+         
               />
         </div>
         <div className="col-md-4">
@@ -52,7 +55,7 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
              placeholder="Email"
              value={formData.email} 
              onChange={(event) => 
-             setFromData({...formData, email: event.target.value})} />
+             setFromData({...formData, email: event.target.value})}  />
         </div>
         <div className="col-md-4">
         <label htmlFor="inputPhoneNumber4" className="form-label">Phone Number</label>
@@ -63,7 +66,7 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
              aria-label="number" 
              value={formData.number} 
              onChange={(event) => 
-             setFromData({...formData, number: event.target.value})}
+             setFromData({...formData, number: event.target.value})}  
              />
         </div>
         <div className="col-md-4">
@@ -75,6 +78,7 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
             value={formData.personsid} 
             onChange={(event) => 
             setFromData({...formData, personsid: event.target.value})}
+          
             />
         </div>
         <div className="col-md-4">
@@ -86,9 +90,10 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
           value={formData.city} 
           onChange={(event) => 
           setFromData({...formData, city: event.target.value})}
+          
           />
         </div>
-        <div className="col-md-4">
+        {/* <div className="col-md-4">
         <label htmlFor="inputProvince4" className="form-label">Province</label>
           <input
            type="text/number" 
@@ -97,17 +102,38 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
             value={formData.province} 
             onChange={(event) => 
             setFromData({...formData, province: event.target.value})}
+            ref={register}
              />
-        </div>
+        </div> */}
+          <div className="col-md-4">
+        <label htmlFor ="form-select" className="form-label">Province </label>
+        <select 
+        id="inputState" 
+        className="form-select"
+        value={formData.province}
+        onChange={(event) =>
+          setFromData({ ...formData, province: event.target.value })}
+           >
+       
+          <option value="one">Province No. One</option>
+          <option value="Madesh">Madhesh Province</option>
+          <option value="Bagmati">Bagmati Province</option>
+          <option value="Gandaki">Gandaki Province</option>
+          <option value="Lumbini">Madhesh Province</option>
+          <option value="Madesh">Madhesh Province</option>
+          <option value="Madesh">Madhesh Province</option>
+          
+        </select>
+      </div>
         <div className="col-md-4">
         <label htmlFor="inputPostal_code4" className="form-label">Postal Code</label>
           <input
            type="number" 
            className="form-control" 
            placeholder="Postal code"
-           value={formData.postalcode} 
+           value={formData.postal_code} 
            onChange={(event) => 
-           setFromData({...formData, postalcode: event.target.value})}
+           setFromData({...formData, postal_code: event.target.value})}  
             />
         </div>
       
@@ -116,9 +142,9 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
           <select 
           id="inputState" 
           className="form-select"
-          value={formData.education}
+          value={formData.education_level}
           onChange={(event) =>
-            setFromData({ ...formData, education: event.target.value })
+            setFromData({ ...formData, education_level: event.target.value })
             }
             onClick={(e)=>(handelClick(e))}
           >

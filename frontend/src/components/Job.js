@@ -1,7 +1,8 @@
 import React from 'react'
 
 
-function Job({ formData, setFromData }) {
+function Job({ formData, setFromData}) {
+ 
   return (
     <div className="container ">
       <form className="row g-3">
@@ -12,9 +13,10 @@ function Job({ formData, setFromData }) {
             className="form-control"
             placeholder="Company name"
             aria-label="Company name"
-            value={formData.companyName}
+            value={formData.company_name}
             onChange={(event) =>
-              setFromData({ ...formData, companyName: event.target.value })}
+              setFromData({ ...formData, company_name: event.target.value })}
+             
           />
         </div>
         <div className="col-md-6">
@@ -24,9 +26,10 @@ function Job({ formData, setFromData }) {
             className="form-control"
             placeholder="Company Address"
             aria-label="Company Address"
-            value={formData.companyAddress}
+            value={formData.company_address}
             onChange={(event) =>
-              setFromData({ ...formData, companyAddress: event.target.value })}
+              setFromData({ ...formData, company_address: event.target.value })}
+        
           />
         </div>
         <div className="col-md-6">
@@ -39,6 +42,7 @@ function Job({ formData, setFromData }) {
             value={formData.position}
             onChange={(event) =>
               setFromData({ ...formData, position: event.target.value })}
+       
           />
         </div>
         <div className="col-md-6">
@@ -51,6 +55,7 @@ function Job({ formData, setFromData }) {
             value={formData.linkedinId}
             onChange={(event) =>
               setFromData({ ...formData, linkedinId: event.target.value })}
+         
           />
         </div>
 

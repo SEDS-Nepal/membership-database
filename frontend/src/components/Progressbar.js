@@ -3,7 +3,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
 
-function Progressbar({page}) {
+function Progressbar({page }) {
  
   return (
     <div >

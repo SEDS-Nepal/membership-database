@@ -1,9 +1,9 @@
 import React from 'react'
 
+let edu;
 function School({ formData, setFromData }) {
   return (
-    <div className="container ">
-    <form className="row g-3">
+    <>
         <div className="col-md-6">
           <label htmlFor="inputSchoolName4" className="form-label">School Name</label>
           <input
@@ -11,9 +11,10 @@ function School({ formData, setFromData }) {
             className="form-control"
             placeholder="School name"
             aria-label="School name"
-            value={formData.schoolName}
+            value={formData.school_name}
             onChange={(event) =>
-              setFromData({ ...formData, schoolName: event.target.value })}
+              setFromData({ ...formData, school_name: event.target.value })}
+    
           />
         </div>
         <div className="col-md-6">
@@ -23,13 +24,14 @@ function School({ formData, setFromData }) {
             className="form-control"
             placeholder="School Address"
             aria-label="School Address"
-            value={formData.schoolAddress}
+            value={formData.school_address}
             onChange={(event) =>
-              setFromData({ ...formData, schoolAddress: event.target.value })}
+              setFromData({ ...formData, school_address: event.target.value })}
+         
           />
         </div>
         
-        <div className="col-md-6">
+        {/* <div className="col-md-6">
           <label htmlFor="inputClass4" className="form-label">Class</label>
           <input
             type="number"
@@ -40,7 +42,7 @@ function School({ formData, setFromData }) {
             onChange={(event) =>
               setFromData({ ...formData, class: event.target.value })}
           />
-        </div>
+        </div> */}
 
         <div className="col-md-12">
           <label htmlFor="inputWebsite4" className="form-label">Website</label>
@@ -48,36 +50,20 @@ function School({ formData, setFromData }) {
             type="url"
             className="form-control"
             placeholder="abc.com"
-            value={formData.schoolWebsite}
+            value={formData.school_website}
             onChange={(event) =>
-              setFromData({ ...formData, schoolWebsite: event.target.value })}
+              setFromData({ ...formData, school_website: event.target.value })}
+          
           />
-        </div>
-        <div className="col-md-12">
-      <label htmlFor ="form-select" className="form-label">Are you working</label>
-      <select 
-      id="inputState" 
-      className="form-select"
-      value={formData.job}
-      onChange={(event) =>
-        setFromData({ ...formData, job: event.target.value })}
-      >
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-        <option value="intern">As an Intern</option>
-      </select>
-    </div>
-        </form>
-    </div>
-  
+        </div> 
+        </>
   )
 }
 
 
-function College({ formData, setFromData }) {
+function College({ formData, setFromData  }) {
   return (
-    <div className="container ">
-      <form className="row g-3">    
+    <> 
     <div className="col-md-6">
       <label htmlFor="inputCollegeName4" className="form-label">College Name</label>
       <input
@@ -85,9 +71,9 @@ function College({ formData, setFromData }) {
         className="form-control"
         placeholder="College name"
         aria-label="College name"
-        value={formData.collegeName}
+        value={formData.college_name}
         onChange={(event) =>
-          setFromData({ ...formData, collegeName: event.target.value })}
+          setFromData({ ...formData, college_name: event.target.value })}
       />
     </div>
     <div className="col-md-6">
@@ -97,9 +83,9 @@ function College({ formData, setFromData }) {
         className="form-control"
         placeholder="College Address"
         aria-label="College Address"
-        value={formData.collegeAddress}
+        value={formData.college_address}
         onChange={(event) =>
-          setFromData({ ...formData, collegeAddress: event.target.value })}
+          setFromData({ ...formData, college_address: event.target.value })}
       />
     </div>
     <div className="col-md-6">
@@ -112,6 +98,7 @@ function College({ formData, setFromData }) {
         value={formData.major}
         onChange={(event) =>
           setFromData({ ...formData, major: event.target.value })}
+
       />
     </div>
     <div className="col-md-6">
@@ -133,38 +120,45 @@ function College({ formData, setFromData }) {
         type="url"
         className="form-control"
         placeholder="abc.com"
-        value={formData.collegeWebsite}
+        value={formData.college_website}
         onChange={(event) =>
-          setFromData({ ...formData, collegeWebsite: event.target.value })}
+          setFromData({ ...formData, college_website: event.target.value })}
       />
-    </div>
-    <div className="col-md-12">
-      <label htmlFor ="form-select" className="form-label">Are you working</label>
-      <select 
-      id="inputState" 
-      className="form-select"
-      value={formData.job}
-      onChange={(event) =>
-        setFromData({ ...formData, job: event.target.value })}
-      >
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-        <option value="intern">As an Intern</option>
-      </select>
-    </div>
-    </form>
-    </div>
+    </div> 
+    </>
   )
 }
 
 function Education({ formData, setFromData , education }) {
-  if (education==="school") {
-    return <School formData={formData} setFromData={setFromData}/>
+  if (education === "school") {
+    edu = <School formData={formData} setFromData={setFromData}/>
   } 
     
  else
- {return <College formData={formData} setFromData={setFromData}/>}
+ {edu = <College formData={formData} setFromData={setFromData}/>}
   
+  return(
+    
+    <div className="container ">
+    <form className="row g-3">
+     {edu}
+    <div className="col-md-12">
+    <label htmlFor ="form-select" className="form-label">Are you working</label>
+    <select 
+    id="inputState" 
+    className="form-select"
+    value={formData.job}
+    onChange={(event) =>
+      setFromData({ ...formData, job: event.target.value })}
+    >
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
+      <option value="intern">As an Intern</option>
+    </select>
+  </div>
+  </form>
+    </div>
+);
 }
 
-export default Education
+export default Education;
