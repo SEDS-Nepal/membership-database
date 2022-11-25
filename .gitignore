@@ -1,7 +1,12 @@
+backend/.idea/
+backend/__init__.py
+backend/router/__init__.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+operations/__init__.py
+operations/.idea
 
 # C extensions
 *.so
