@@ -1,10 +1,10 @@
 import datetime
 
-from structure import Person, Member, Address, College, InputCollege, InputPerson, InputMember, InputAddress, Updatemember,Updateroledetails,Updatecollege,Updateaddress, Memberdetails
+from ..structure import Person, Member, Address, College, InputCollege, InputPerson, InputMember, InputAddress, Updatemember,Updateroledetails,Updatecollege,Updateaddress, Memberdetails
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-import model
-from dbconnection import sessionlocal, engine
+from . import model
+from ..dbconnection import sessionlocal, engine
 
 model.base.metadata.create_all(bind=engine)
 router = APIRouter()
