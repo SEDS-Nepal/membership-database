@@ -43,7 +43,7 @@ function Form() {
         const isValid = await userSchema.isValid(formData);
         console.log(isValid);
 
-        await axios.post("http://localhost:8000/api/new_members/",formData)
+        await axios.post("http://localhost:8000/api/members/",formData)
         .then(res => console.log('posting data', res)).catch(err=>console.log(err))
   
  }
