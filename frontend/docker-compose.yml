@@ -10,7 +10,7 @@ services:
     build:
       context: .
       target: nginx
-    image: 'sedsnepal_md_web:latest'
+    image: 'supernovabirth/sedsnepal_md_web:latest'
     container_name: sedsnepal_md_web
     ports:
       - "8080:80"
