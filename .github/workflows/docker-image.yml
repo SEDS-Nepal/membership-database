@@ -3,10 +3,8 @@ name: Docker Image CI
 on:
   push:
     branches: [ "master" ]
-    paths: 'backend/**'
   pull_request:
     branches: [ "master" ]
-    paths: 'backend/**'
 
 jobs:
 
@@ -29,7 +27,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
-        context: .
-        file: ./backend/Dockerfile
+        context: backend
+        file: backend/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/sedsnepal_md_app:latest
