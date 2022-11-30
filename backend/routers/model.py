@@ -62,3 +62,14 @@ class Job(base):
     title = Column(String)
     company_name = Column(String)
     company_address = Column(String)
+class Chapter(base):
+    __tablename__ = 'chapterinfo'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String, unique=True)
+    chapter_name = Column(String, unique=True)
+    chapter_location = Column(String)
+    chapter_head = Column(String)
+    chapter_members = Column(Integer)
+    college_name = Column(String, unique=True)
+    college_website = Column(String)
+    college_estd = Column(DateTime)
