@@ -38,3 +38,46 @@ jobs:
         file: frontend/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/sedsnepal_md_web:latest
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Transfer BACKEND docker compose yaml
+        uses: appleboy/scp-action@v0.1.3
+
+        with:
+          host: ${{ secrets.DIGITAL_OCEAN_HOST }}
+          username: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
+          key: ${{ secrets.DIGITAL_OCEAN }}
+          passphrase: ${{ secrets.DIGITAL_OCEAN_PASSPHRASE }}
+          source: "backend/docker-compose.yml"
+          target: "backend"
+          
+      - name: Transfer FRONTEND docker compose yaml
+        uses: appleboy/scp-action@v0.1.3
+
+        with:
+          host: ${{ secrets.DIGITAL_OCEAN_HOST }}
+          username: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
+          key: ${{ secrets.DIGITAL_OCEAN }}
+          passphrase: ${{ secrets.DIGITAL_OCEAN_PASSPHRASE }}
+          source: "frontend/docker-compose.yml"
+          target: "frontend"  
+          
+      - name: SSH Remote Commands - Run Containers
+        uses: appleboy/ssh-action@v0.1.5
+       
+        with:
+          host: ${{ secrets.DIGITAL_OCEAN_HOST }}
+          username: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
+          key: ${{ secrets.DIGITAL_OCEAN }}
+          passphrase: ${{ secrets.DIGITAL_OCEAN_PASSPHRASE }}
+          script: |
+            docker-compose -f backend/docker-compose.yml down
+            docker-compose -f frontend/docker-compose.yml down
+            sudo docker rmi supernovabirth/sedsnepal_md_app
+            sudo docker rmi supernovabirth/sedsnepal_md_web
+            docker-compose -f backend/docker-compose.yml up
+            docker-compose -f frontend/docker-compose.yml up
