@@ -75,9 +75,9 @@ jobs:
           key: ${{ secrets.DIGITAL_OCEAN }}
           passphrase: ${{ secrets.DIGITAL_OCEAN_PASSPHRASE }}
           script: |
-            docker-compose -f backend/docker-compose.yml down
-            docker-compose -f frontend/docker-compose.yml down
+            sudo docker-compose -f backend/docker-compose.yml down
+            sudo docker-compose -f frontend/docker-compose.yml down
             sudo docker rmi supernovabirth/sedsnepal_md_app
             sudo docker rmi supernovabirth/sedsnepal_md_web
-            docker-compose -f backend/docker-compose.yml up
-            docker-compose -f frontend/docker-compose.yml up
+            sudo docker-compose -f backend/docker-compose.yml up
+            sudo docker-compose -f frontend/docker-compose.yml up
