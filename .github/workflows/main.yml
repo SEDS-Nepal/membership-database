@@ -25,7 +25,7 @@ jobs:
           USERNAME: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
           PASSPHRASE: ${{ secrets.DIGITAL_OCEAN_PASSPHRASE }}
         with:
-          source: "docker-compose.yml"
+          source: "docker-compose.yml, restart.sh"
           target: "/home/"
           
   deploy:
@@ -38,10 +38,7 @@ jobs:
       uses: garygrossgarten/github-action-ssh@0.7.0
       with:
         command: |
-            sudo docker-compose -f /home/docker-compose.yml down
-            sudo docker rmi supernovabirth/sedsnepal_md_app
-            sudo docker rmi supernovabirth/sedsnepal_md_web
-            sudo docker-compose -f /home/docker-compose.yml up &>/dev/null
+            sudo bash restart.sh
         host: ${{ secrets.DIGITAL_OCEAN_HOST }}
         username: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
         passphrase: ${{ secrets.DIGITAL_OCEAN_PASSPHRASE }}
