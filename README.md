@@ -1,3 +1,6 @@
+[![Docker Image CI](https://github.com/SEDS-Nepal/membership-database/actions/workflows/docker-image.yml/badge.svg?branch=master)](https://github.com/SEDS-Nepal/membership-database/actions/workflows/docker-image.yml)
+[![Docker Run](https://github.com/SEDS-Nepal/membership-database/actions/workflows/main.yml/badge.svg)](https://github.com/SEDS-Nepal/membership-database/actions/workflows/main.yml)
+
 # membership-database
 Software to manage members of organizations
 # How to run the api?

@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2.1'
 
 services:
   nginx:
@@ -16,7 +16,8 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - mdb
+      mdb:
+        condition: service_healthy
     environment:
       - DATASOURCE_URL=postgresql://sedsnepal_md:sedsnepal_md@mdb:5432/sedsnepal_md
 
@@ -31,6 +32,8 @@ services:
       - POSTGRES_PASSWORD=sedsnepal_md
     volumes:
       - sedsnepal_md_data:/var/lib/postgresql/data
+    healthcheck:
+      test: "exit 0"
 
 volumes:
   sedsnepal_md_data:
