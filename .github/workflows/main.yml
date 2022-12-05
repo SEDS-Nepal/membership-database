@@ -23,6 +23,7 @@ jobs:
           KEY: ${{ secrets.DIGITAL_OCEAN }}
           HOST: ${{ secrets.DIGITAL_OCEAN_HOST }}
           USERNAME: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
+          PASSPHRASE: ${{ secrets.DIGITAL_OCEAN_PASSPHRASE }}
         with:
           source: "frontend/docker-compose.yml"
           target: "/home/frontend"
@@ -33,6 +34,7 @@ jobs:
           KEY: ${{ secrets.DIGITAL_OCEAN }}
           HOST: ${{ secrets.DIGITAL_OCEAN_HOST }}
           USERNAME: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
+          PASSPHRASE: ${{ secrets.DIGITAL_OCEAN_PASSPHRASE }}
         with:
           source: "backend/docker-compose.yml"
           target: "/home/backend"
