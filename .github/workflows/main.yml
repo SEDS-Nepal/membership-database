@@ -38,7 +38,7 @@ jobs:
       uses: garygrossgarten/github-action-ssh@0.7.0
       with:
         command: |
-            sudo bash restart.sh
+            sudo bash /home/restart.sh
         host: ${{ secrets.DIGITAL_OCEAN_HOST }}
         username: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
         passphrase: ${{ secrets.DIGITAL_OCEAN_PASSPHRASE }}
