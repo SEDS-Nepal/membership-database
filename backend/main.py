@@ -7,6 +7,10 @@ app = FastAPI(title="SEDS-Nepal Membership Database")
 app.include_router(members.router)
 
 origins = [
+    "http://157.245.100.232",
+    "http://157.245.100.232:80",
+    "http://157.245.100.232:8000",
+    "http://157.245.100.232:8080",
     "http://147.182.209.148:8000",
     "http://147.182.209.148:8080",
     "http://localhost:8000",
