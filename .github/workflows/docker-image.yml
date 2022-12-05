@@ -56,6 +56,7 @@ jobs:
           username: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
           key: ${{ secrets.DIGITAL_OCEAN }}
           passphrase: ${{ secrets.DIGITAL_OCEAN_PASSPHRASE }}
+          fingerprint: ${{ secrets.DIGITAL_OCEAN_1 }}
           source: |
             backend/docker-compose.yml
           target: /home/backend/
@@ -67,6 +68,7 @@ jobs:
           username: ${{ secrets.DIGITAL_OCEAN_USERNAME }}
           key: ${{ secrets.DIGITAL_OCEAN }}
           passphrase: ${{ secrets.DIGITAL_OCEAN_PASSPHRASE }}
+          fingerprint: ${{ secrets.DIGITAL_OCEAN_1 }}
           source: |
             frontend/docker-compose.yml
           target: /home/frontend/
