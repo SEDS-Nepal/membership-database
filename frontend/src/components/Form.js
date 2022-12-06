@@ -3,8 +3,8 @@ import Education from './Education';
 import Job from './Job';
 import PersonalInfo from './PersonalInfo';
 import Textarea from './Textarea';
-import Progressbar from './Progressbar';
-import Update from './Update';
+import Progressbar from './stepper/Progressbar';
+import Success from './Success';
 import axios from 'axios';
 import { userSchema } from '../Validations/UserValidation';
 
@@ -64,7 +64,7 @@ function Form() {
         }
         else {
 
-            return <Update page={page} setPage={setPage}/>
+            return <Success page={page} setPage={setPage}/>
         }
     };
     return (
@@ -88,18 +88,13 @@ function Form() {
                         onClick={() => {
                            if(page === FormTitles.length - 2){
                             {submitRegistration()}
-                            console.log(formData);  
-                            
-                           }
-                          
-                            setPage((currPage) => currPage +1 );
-                           
+                            console.log(formData);    
+                           }      
+                            setPage((currPage) => currPage +1 );         
                         }}>
                         {page === FormTitles.length-2 ? "Submit" : "Next"} </button>
                 </div>
             </div>
-
-
         </div>
     )
 }

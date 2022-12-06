@@ -3,6 +3,8 @@ import HomeScreen from './HomeScreen';
 import {Routes, Route} from 'react-router-dom'
 import Form from "./components/Form";
 import './App.css';
+import Club from './components/Club';
+import Job from './components/Job';
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
       <Routes>
        <Route path="/" element={<HomeScreen />} />
        <Route path="/membership" element={ <Form/> } />
+       <Route path="/non-student" element={ <Job/> } />
+       <Route path="/club" element={ <Club/> } />
       </Routes>
       
     </div>

@@ -13,6 +13,7 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
           <input
            type="text"
            className="form-control" 
+           id='inputFirstName4'
            placeholder="First name"
             aria-label="First name"
              value={formData.first_name} 
@@ -25,6 +26,7 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
           <input
            type="text"
            className="form-control" 
+           id='inputMiddleName4'
             placeholder="middle name" 
             aria-label="middle name" 
             value={formData.middle_name} 
@@ -38,6 +40,7 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
           <input
            type="text"
             className="form-control"
+            id='inputLastName4'
              placeholder="Last name" 
              aria-label="Last name"
              value={formData.last_name} 
@@ -62,6 +65,7 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
           <input
            type="number" 
            className="form-control"
+           id='inputPhoneNumber4'
             placeholder="number"
              aria-label="number" 
              value={formData.number} 
@@ -74,6 +78,7 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
           <input 
           type="number"
           className="form-control"
+          id='inputPersons_id4'
             placeholder="citizenship number" 
             value={formData.personsid} 
             onChange={(event) => 
@@ -86,43 +91,29 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
           <input 
           type="text" 
           className="form-control" 
+          id='inputcity4'
           placeholder="city" 
           value={formData.city} 
           onChange={(event) => 
-          setFromData({...formData, city: event.target.value})}
-          
+          setFromData({...formData, city: event.target.value})}       
           />
         </div>
-        {/* <div className="col-md-4">
-        <label htmlFor="inputProvince4" className="form-label">Province</label>
-          <input
-           type="text/number" 
-           className="form-control"
-            placeholder="province"
-            value={formData.province} 
-            onChange={(event) => 
-            setFromData({...formData, province: event.target.value})}
-            ref={register}
-             />
-        </div> */}
           <div className="col-md-4">
         <label htmlFor ="form-select" className="form-label">Province </label>
         <select 
-        id="inputState" 
+        id="form-select" 
         className="form-select"
         value={formData.province}
         onChange={(event) =>
           setFromData({ ...formData, province: event.target.value })}
-           >
-       
+           >     
           <option value="one">Province No. One</option>
           <option value="Madesh">Madhesh Province</option>
           <option value="Bagmati">Bagmati Province</option>
           <option value="Gandaki">Gandaki Province</option>
           <option value="Lumbini">Madhesh Province</option>
           <option value="Madesh">Madhesh Province</option>
-          <option value="Madesh">Madhesh Province</option>
-          
+          <option value="Madesh">Madhesh Province</option>   
         </select>
       </div>
         <div className="col-md-4">
@@ -130,6 +121,7 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
           <input
            type="number" 
            className="form-control" 
+           id='inputPostal_code4'
            placeholder="Postal code"
            value={formData.postal_code} 
            onChange={(event) => 
@@ -138,7 +130,7 @@ function PersonalInfo({formData, setFromData ,setEducation}) {
         </div>
       
         <div className="col-md-12">
-          <label htmlFor="form-select" className="form-label">Education(Choose the recent one)</label>
+          <label htmlFor="inputState" className="form-label">Education(Choose the recent one)</label>
           <select 
           id="inputState" 
           className="form-select"

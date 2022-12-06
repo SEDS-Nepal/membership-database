@@ -53,4 +53,10 @@ button:hover{
    
 }
 
+.errors{
+    color: red;
+  }
 
+.dropdown{
+    padding-left: 22px;
+}

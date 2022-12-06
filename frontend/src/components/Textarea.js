@@ -19,10 +19,10 @@ function Textarea({formData, setFromData}) {
         </textarea>
       </div>
       <div className="mb-3">
-        <label htmlFor="exampleFormControlTextarea1" className="form-label">How do you want to support SEDS-Nepal or the Nepalese Space Community?</label>
+        <label htmlFor="exampleFormControlTextarea2" className="form-label">How do you want to support SEDS-Nepal or the Nepalese Space Community?</label>
         <textarea 
         className="form-control"
-         id="exampleFormControlTextarea1"
+         id="exampleFormControlTextarea2"
           rows="3"
           value={formData.ques2}
           onChange={(event) =>
