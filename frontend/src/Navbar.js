@@ -23,7 +23,6 @@ const Navbar = () => {
                             </Link>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><Link className="dropdown-item" to="/membership">Join as individual</Link></li>
-                                <li><Link className="dropdown-item" to="/non-student">Non-student click here </Link></li>
                                 <li><Link className="dropdown-item" to="/club">Join as a club</Link></li>
                             </ul>
                         </li>

@@ -13,7 +13,6 @@ function App() {
       <Routes>
        <Route path="/" element={<HomeScreen />} />
        <Route path="/membership" element={ <Form/> } />
-       <Route path="/non-student" element={ <Job/> } />
        <Route path="/club" element={ <Club/> } />
       </Routes>
       

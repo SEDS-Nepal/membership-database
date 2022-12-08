@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useFormik } from 'formik';
+import { Formik, useFormik } from 'formik';
 import { newChapterSchema } from '../Validations/NewChapterValidation';
 import Clubstepper from './stepper/Clubstepper';
 import Success from './Success';
@@ -13,7 +13,7 @@ const initialValues = {
     institutionname: "",
     website: "",
 }
-function ClubForm({ values, errors, handleBlur, touched, handleChange }) {
+function ClubForm({ values, errors, handleBlur, touched, handleChange}) {
     return (
         <div className='container'>
             <div className="row g-3">
@@ -143,7 +143,7 @@ function ClubForm({ values, errors, handleBlur, touched, handleChange }) {
                     {errors.website && touched.website ? (
                         <p className='errors'>{errors.website}</p>) : null}
                 </div>
-            </div>
+            </div>         
         </div>
     )
 }
@@ -151,7 +151,7 @@ function ClubForm({ values, errors, handleBlur, touched, handleChange }) {
 function QuesAns() {
     return (
         <div className='container'>
-            <form className="row g-3">
+            <div className="row g-3">
                 <div className="mb-3">
                     <label htmlFor="FormControlTextarea1" className="form-label">If you already have a faculty member from your college/University helping you out, what's their name? If you don't have it now, you can update us again when the information changes.</label>
                     <textarea
@@ -218,7 +218,7 @@ function QuesAns() {
 
                     </label>
                 </div>
-            </form>
+            </div>
         </div>
     )
 }
@@ -226,18 +226,18 @@ function QuesAns() {
 
 function Club() {
 
-    const { values, errors, handleBlur, touched, handleChange, handleSubmit } = useFormik({
+    const { values, errors, handleBlur, touched, handleChange, handleSubmit , isValid} = useFormik({
         initialValues: initialValues,
-        // validationSchema: newChapterSchema,
-        onSubmit: (values, action) => {
+        validationSchema: newChapterSchema,
+        onSubmit: (values) => {
             console.log(values);
-            action.resetForm();
         },
     })
+    console.log(isValid);
     const [page, setPage] = useState(0);
     const PageDisplay = () => {
         if (page === 0) {
-            return <ClubForm values={values} errors={errors} handleBlur={handleBlur} touched={touched} handleChange={handleChange} handleSubmit={handleSubmit} />
+            return <ClubForm values={values} errors={errors} handleBlur={handleBlur} touched={touched} handleChange={handleChange}/>
         }
         else if (page === 1) {
             return <QuesAns />
@@ -246,36 +246,33 @@ function Club() {
             return <Success />
         }
     }
-    // onSubmit={handleSubmit}
     return (
-        <div className='form'>
+        <form className='form' onSubmit={handleSubmit}>
             <div className='header'>
                 <Clubstepper page={page} />
             </div>
             <div className='form-container'>
-                <form onSubmit={handleSubmit}>
                 <div className='formbody'>{PageDisplay()}
-                <div className='Footer'>
-                    <button className='prev'
-                        disabled={page === 0}
-                        hidden={page === 2}
-                        onClick={() => {
-                            setPage((currPage) => currPage - 1);
-                        }}>
-                        Prev </button>
+                    <div className='Footer'>
+                        <button className='prev'
+                            disabled={page === 0}
+                            hidden={page === 2}
+                            onClick={() => {
+                                setPage((currPage) => currPage - 1);
+                            }}>
+                            Prev </button>
 
-                    <button className='next input-button' type='submit'
-                        hidden={page === 2}
-                        onClick={() => {
-                            setPage((currPage) => currPage + 1);
-                        }}>
-                        {page === 1 ? "Submit" : page === 0 ? "Next" : ""} </button>
+                        <button className='next input-button' type='submit'
+                        disabled={!isValid}
+                            hidden={page === 2}
+                            onClick={() => {    
+                                    setPage((currPage) => currPage + 1);
+                            }}>
+                            {page === 1 ? "Submit" : page === 0 ? "Next" : ""} </button>
+                    </div>
                 </div>
-                </div>
-                </form>
             </div>
-          
-        </div>
+        </form>
     )
 }
 
