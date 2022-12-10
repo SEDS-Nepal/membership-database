@@ -1,6 +1,6 @@
 import datetime
 
-from ..structure import Person, Member, Address, College, InputCollege, InputPerson, InputMember, InputAddress, Updatemember,Updateroledetails,Updatecollege,Updateaddress, Memberdetails
+from ..structure import Person,Address, College, InputCollege, InputPerson, InputMember, InputAddress, Updatemember,Updateroledetails,Updatecollege,Updateaddress, Memberdetails
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from . import model
@@ -109,69 +109,70 @@ def update_member(id:int, member:Updatemember,college:Updatecollege,address:Upda
 def add_new_members(member:Memberdetails,db:Session=Depends(get_db)):
     # For inserting the address in addressinfo
     id = db.execute(
-        f"SELECT COUNT(address_id) FROM addressinfo WHERE postal_code='{member.postal_code}' AND city='{member.city}'").one()
+        f"SELECT COUNT(address_id) FROM addressinfo WHERE postal_code='{member.address.postal_code}' AND city='{member.address.city}'").one()
     addressId = int(''.join(map(str, id)))
     if (addressId == 0):
         db.execute(
-            f"INSERT INTO addressinfo(city,province,postal_code) VALUES('{member.city}','{member.province}','{member.postal_code}')")
+            f"INSERT INTO addressinfo(city,province,postal_code) VALUES('{member.address.city}','{member.address.province}','{member.address.postal_code}')")
         db.commit()
         id = db.execute(
-            f"SELECT address_id FROM addressinfo WHERE postal_code='{member.postal_code}' AND city='{member.city}'").one()
+            f"SELECT address_id FROM addressinfo WHERE postal_code='{member.address.postal_code}' AND city='{member.address.city}'").one()
         addressId = int(''.join(map(str, id)))
     else:
         id = db.execute(
-            f"SELECT address_id FROM addressinfo WHERE postal_code='{member.postal_code}' AND city='{member.city}'").one()
+            f"SELECT address_id FROM addressinfo WHERE postal_code='{member.address.postal_code}' AND city='{member.address.city}'").one()
         addressId = int(''.join(map(str, id)))
 
 
         #  For inserting and checking the person with the id is already registered as the  member in roleinfo
 
-    cnt = db.execute(f"SELECT COUNT(personsid) FROM roleinfo WHERE personsid='{member.personsid}'").one()
+    cnt = db.execute(f"SELECT COUNT(personsid) FROM roleinfo WHERE personsid='{member.person.personsid}'").one()
     count = int(''.join(map(str, cnt)))
     if (count == 0):
         db.execute(
-            f"INSERT INTO roleinfo(personsid,position,prsn_joined_date) VALUES('{member.personsid}','{member.position}','{datetime.datetime.now()}')")
+            f"INSERT INTO roleinfo(personsid,position,prsn_joined_date) VALUES('{member.person.personsid}','{member.person.position}','{datetime.datetime.now()}')")
         db.commit()
     else:
-        raise HTTPException(status_code=404, detail=f"Person with id = '{member.personsid}' already exist")
+        raise HTTPException(status_code=404, detail=f"Person with id = '{member.person.personsid}' already exist")
 
         #    For inserting and checking the entered college is already present in database or not in collegeinfo
 
     clz = db.execute(
-        f"SELECT COUNT(college_name) FROM collegeinfo WHERE college_name='{member.college_name}' AND college_website='{member.college_website}'").one()
+            f"SELECT COUNT(college_name) FROM collegeinfo WHERE college_name='{member.college.college_name}' AND college_website='{member.college.college_website}'").one()
     clz_id = int(''.join(map(str, clz)))
     if (clz_id == 0):
-            db.execute(
-                f"INSERT INTO collegeinfo(college_name,college_address,college_website) VALUES ('{member.college_name}','{member.college_address}','{member.college_website}')")
-            db.commit()
-            clz = db.execute(f"SELECT college_id FROM collegeinfo WHERE college_website='{member.college_website}' AND college_name='{member.college_name}'").one()
-            clz_id = int(''.join(map(str, clz)))
+                db.execute(
+                    f"INSERT INTO collegeinfo(college_name,college_address,college_website) VALUES ('{member.college.college_name}','{member.college.college_address}','{member.college.college_website}')")
+                db.commit()
+                clz = db.execute(f"SELECT college_id FROM collegeinfo WHERE college_website='{member.college.college_website}' AND college_name='{member.college.college_name}'").one()
+                clz_id = int(''.join(map(str, clz)))
     else:
-            clz = db.execute(f"SELECT college_id FROM collegeinfo WHERE college_website='{member.college_website}'").one()
-            clz_id = int(''.join(map(str, clz)))
+                clz = db.execute(f"SELECT college_id FROM collegeinfo WHERE college_website='{member.college.college_website}'").one()
+                clz_id = int(''.join(map(str, clz)))
 
 
     # For inserting and checking if the school is previously registered or not in schoolinfo
+
     scl = db.execute(
-        f"SELECT COUNT(school_name) FROM schoolinfo WHERE school_name='{member.school_name}' AND school_website='{member.school_website}'").one()
+            f"SELECT COUNT(school_name) FROM schoolinfo WHERE school_name='{member.school.school_name}' AND school_website='{member.school.school_website}'").one()
     schoolId = int(''.join(map(str, scl)))
     if (schoolId == 0):
-        db.execute(
-            f"INSERT INTO schoolinfo(school_name,school_address,school_website) VALUES ('{member.school_name}','{member.school_address}','{member.school_website}')")
-        db.commit()
-        scl = db.execute(
-            f"SELECT school_id FROM schoolinfo WHERE school_website='{member.school_website}' AND school_name='{member.school_name}'").one()
-        schoolId = int(''.join(map(str, scl)))
+            db.execute(
+                f"INSERT INTO schoolinfo(school_name,school_address,school_website) VALUES ('{member.school.school_name}','{member.school.school_address}','{member.school.school_website}')")
+            db.commit()
+            scl = db.execute(
+                f"SELECT school_id FROM schoolinfo WHERE school_website='{member.school.school_website}' AND school_name='{member.school.school_name}'").one()
+            schoolId = int(''.join(map(str, scl)))
     else:
-        clz = db.execute(f"SELECT school_id FROM schoolinfo WHERE school_website='{member.school_website}'").one()
-        schoolId= int(''.join(map(str, clz)))
+            clz = db.execute(f"SELECT school_id FROM schoolinfo WHERE school_website='{member.school.school_website}'").one()
+            schoolId= int(''.join(map(str, clz)))
 
 
     # For inserting the current job of the persons if they are working
 
     job= db.execute(
-        f"INSERT INTO jobinfo(title,company_name,company_address) VALUES('{member.title}','{member.company_name}','{member.company_address}')"
-    )
+            f"INSERT INTO jobinfo(title,company_name,company_address) VALUES('{member.job.title}','{member.job.company_name}','{member.job.company_address}')"
+        )
     db.commit()
     job= db.execute(f"SELECT job_id FROM jobinfo ORDER BY job_id DESC LIMIT 1").one()
     jobId=int(''.join(map(str,job)))
@@ -179,6 +180,6 @@ def add_new_members(member:Memberdetails,db:Session=Depends(get_db)):
     # For inserting the member information into membersinfo
 
     db.execute(
-        f"INSERT INTO memberinfo(first_name,middle_name,last_name,email,education_level,major,number,person_id,college_id,school_id,job_id,address_id) VALUES ('{member.first_name}','{member.middle_name}','{member.last_name}','{member.email}','{member.education_level}','{member.major}','{member.number}','{member.personsid}','{clz_id}','{schoolId}','{jobId}','{addressId}')"
+        f"INSERT INTO memberinfo(first_name,middle_name,last_name,email,education_level,major,number,person_id,college_id,school_id,job_id,address_id) VALUES ('{member.member.first_name}','{member.member.middle_name}','{member.member.last_name}','{member.member.email}','{member.member.education_level}','{member.member.major}','{member.member.number}','{member.person.personsid}','{clz_id}','{schoolId}','{jobId}','{addressId}')"
     )
     db.commit()
