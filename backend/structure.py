@@ -78,16 +78,7 @@ class Job(InputJob):
         orm_mode: True
 
 
-class Member(InputMember):
-    id: int
-    personid: Optional[int]
-    college_id: Optional[int]
-    school_id: Optional[int]
-    job_id: Optional[int]
-    address_id: Optional[int]
 
-    class Config:
-        orm_mode: True
 
 
 class Updatemember(SQLModel):
@@ -116,5 +107,12 @@ class Updateaddress(SQLModel):
     postal_code: int | None = None
 
 
-class Memberdetails(InputAddress, InputCollege, InputSchool, InputJob, InputPerson, InputMember):
+class Memberdetails(SQLModel):
     form: Optional[str]
+    address: InputAddress
+    college: InputCollege | None
+    school: InputSchool | None
+    job: InputJob | None
+    person: InputPerson
+    member: InputMember
+
