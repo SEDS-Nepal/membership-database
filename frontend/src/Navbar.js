@@ -26,6 +26,9 @@ const Navbar = () => {
                                 <li><Link className="dropdown-item" to="/club">Join as a club</Link></li>
                             </ul>
                         </li>
+                        {/* <li className="mx-4 nav-item active">
+                            <Link className="nav-link" href="/membersdata">MEMBERS DATA</Link>
+                        </li> */}
                     </ul>
                 </div>
             </div>
