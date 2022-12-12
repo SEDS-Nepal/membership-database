@@ -26,7 +26,7 @@ def welcome():
 @router.get("/api/members/")
 def get_all_members(db: Session = Depends(get_db)) -> list:
     return db.execute(
-        f"SELECT mem.id, mem.first_name,mem.middle_name,mem.last_name,mem.email,mem.education_level,mem.major,mem.number FROM memberinfo mem").all()
+        f"SELECT * FROM memberinfo mem").all()
 
 
 @router.get("/api/members/{id}")
@@ -183,3 +183,11 @@ def add_new_members(member:Memberdetails,db:Session=Depends(get_db)):
         f"INSERT INTO memberinfo(first_name,middle_name,last_name,email,education_level,major,number,person_id,college_id,school_id,job_id,address_id) VALUES ('{member.member.first_name}','{member.member.middle_name}','{member.member.last_name}','{member.member.email}','{member.member.education_level}','{member.member.major}','{member.member.number}','{member.person.personsid}','{clz_id}','{schoolId}','{jobId}','{addressId}')"
     )
     db.commit()
+
+@router.delete("/api/members/{id}")
+def get_all_details(id: int, db: Session = Depends(get_db)):
+    db.execute(f"DELETE FROM memberinfo WHERE memberinfo.id ={id}")
+    db.add_all
+    db.commit()
+    return
+
