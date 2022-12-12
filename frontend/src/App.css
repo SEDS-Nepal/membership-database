@@ -1,56 +1,101 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-
-.form{
+.main {
     position: relative;
     margin: 10vh 10vw;
-    padding: 50px  0px;
+    padding: 50px 0px;
     min-height: 60vh;
     width: 80vw;
-   /* background: rgb(225, 157, 157); */
-   
+    /* background: rgb(225, 157, 157); */
+
 }
-.formbody{
+
+.form {
+    position: relative;
+    margin: 10vh 10vw;
+    padding: 50px 0px;
+    min-height: 60vh;
+    width: 80vw;
+    /* background: rgb(225, 157, 157); */
+
+}
+
+.formbody {
     margin-top: 40px;
     min-height: 50vh;
     /* background: rgb(133, 158, 126); */
 }
 
 
-button{
+button {
     margin-top: 4vh;
     padding: 8px 25px;
     border: 1px solid black;
     border-radius: 6px;
     color: black;
     background-color: #fff;
-    
+
 }
 
-button:hover{
+button:hover {
     color: rgb(255, 255, 255);
     background-color: rgb(0, 0, 0);
 }
 
-.prev{
+.prev {
     margin-right: 120px;
-    margin-left: 15px ;
+    margin-left: 15px;
 }
 
-.next{
+.next {
     position: absolute;
-   right: 14px;
+    right: 14px;
 }
 
 
-.container h2{
+.container h2 {
     margin-top: 90px;
     margin-bottom: 20px;
-   
+
 }
 
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
 
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
