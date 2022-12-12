@@ -62,6 +62,7 @@ class Job(base):
     title = Column(String)
     company_name = Column(String)
     company_address = Column(String)
+    
 class Chapter(base):
     __tablename__ = 'chapterinfo'
     id = Column(Integer, primary_key=True, autoincrement=True)

@@ -26,6 +26,9 @@ class College(InputCollege):
     class Config:
         orm_mode: True
 
+class OutputCollege(SQLModel):
+    pass
+
 
 class InputPerson(SQLModel):
     personsid: str
@@ -37,6 +40,9 @@ class Person(InputPerson):
 
     class Config:
         orm_mode: True
+
+class OutputPerson(SQLModel):
+    pass
 
 
 class InputAddress(SQLModel):
@@ -51,6 +57,9 @@ class Address(InputAddress):
     class Config:
         orm_mode: True
 
+class OutputAddress(SQLModel):
+    pass
+
 
 class InputSchool(SQLModel):
     school_name: str
@@ -63,6 +72,9 @@ class School(InputSchool):
 
     class config:
         orm_mode: True
+
+class OutputSchool(SQLModel):
+    pass
 
 
 class InputJob(SQLModel):
@@ -77,7 +89,8 @@ class Job(InputJob):
     class config:
         orm_mode: True
 
-
+class OutputJob(SQLModel):
+    pass
 
 
 
