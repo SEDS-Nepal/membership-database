@@ -21,7 +21,7 @@
 }
 
 
-button{
+button , .btn1{
     margin-top: 4vh;
     padding: 8px 25px;
     border: 1px solid black;
@@ -31,7 +31,7 @@ button{
     
 }
 
-button:hover{
+button:hover ,.btn1:hover{
     color: rgb(255, 255, 255);
     background-color: rgb(0, 0, 0);
 }
@@ -60,3 +60,17 @@ button:hover{
 .dropdown{
     padding-left: 22px;
 }
+ .containerclub{
+    position: relative;
+    margin: 10vh 10vw;
+    padding: 50px  0px;
+    min-height: 60vh;
+    width: 80vw;
+ }
+
+ .btn1{
+   position: absolute;
+   width: auto;
+   bottom: 0;
+   right: 0;
+ } 
