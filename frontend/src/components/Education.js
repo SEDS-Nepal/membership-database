@@ -9,6 +9,7 @@ function School({ formData, setFromData }) {
           <input
             type="text"
             className="form-control"
+            id='inputSchoolName4'
             placeholder="School name"
             aria-label="School name"
             value={formData.school_name}
@@ -22,6 +23,7 @@ function School({ formData, setFromData }) {
           <input
             type="text"
             className="form-control"
+            id='inputSchoolAdress4'
             placeholder="School Address"
             aria-label="School Address"
             value={formData.school_address}
@@ -49,6 +51,7 @@ function School({ formData, setFromData }) {
           <input
             type="url"
             className="form-control"
+            id='inputWebsite4'
             placeholder="abc.com"
             value={formData.school_website}
             onChange={(event) =>
@@ -69,6 +72,7 @@ function College({ formData, setFromData  }) {
       <input
         type="text"
         className="form-control"
+        id='inputCollegeName4'
         placeholder="College name"
         aria-label="College name"
         value={formData.college_name}
@@ -81,6 +85,7 @@ function College({ formData, setFromData  }) {
       <input
         type="text"
         className="form-control"
+        id='inputCollegeAdress4'
         placeholder="College Address"
         aria-label="College Address"
         value={formData.college_address}
@@ -93,6 +98,7 @@ function College({ formData, setFromData  }) {
       <input
         type="text"
         className="form-control"
+        id='inputMajor4'
         placeholder="Major "
         aria-label="Major "
         value={formData.major}
@@ -106,7 +112,7 @@ function College({ formData, setFromData  }) {
       <input
         type="number"
         className="form-control"
-        id="year"
+        id="inputYear4"
         placeholder="Year"
         value={formData.year}
         onChange={(event) =>
@@ -119,6 +125,7 @@ function College({ formData, setFromData  }) {
       <input
         type="url"
         className="form-control"
+        id='inputWebsite4'
         placeholder="abc.com"
         value={formData.college_website}
         onChange={(event) =>
@@ -143,9 +150,9 @@ function Education({ formData, setFromData , education }) {
     <form className="row g-3">
      {edu}
     <div className="col-md-12">
-    <label htmlFor ="form-select" className="form-label">Are you working</label>
+    <label htmlFor ="form-select4" className="form-label">Are you working</label>
     <select 
-    id="inputState" 
+    id="form-select4" 
     className="form-select"
     value={formData.job}
     onChange={(event) =>
