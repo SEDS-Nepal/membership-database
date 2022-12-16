@@ -182,3 +182,44 @@ def add_new_members(member:Memberdetails,db:Session=Depends(get_db)):
         f"INSERT INTO memberinfo(first_name,middle_name,last_name,email,education_level,major,number,person_id,college_id,school_id,job_id,address_id) VALUES ('{member.first_name}','{member.middle_name}','{member.last_name}','{member.email}','{member.education_level}','{member.major}','{member.number}','{member.personsid}','{clz_id}','{schoolId}','{jobId}','{addressId}')"
     )
     db.commit()
+    
+    @router.get("/api/chapters/")
+def get_all_chapters(db: Session = Depends(get_db)) -> list:
+    return db.execute(
+        f"SELECT chapter.id, chapter.chapter_name, chapter.chapter_location, chapter.chapter_head,"
+        f"chapter.chapter_members,chapter.email,chapter.college_name,chapter.college_address,chapter.college_website ,chapter.college_estd "
+        f"FROM chapterinfo chapter").all()
+
+
+@router.get("/api/chapters/{id}")
+def get_chapters_by_id(id: int, db: Session = Depends(get_db)):
+    return db.execute(f"SELECT chapter.id, chapter.chapter_name, chapter.chapter_location, chapter.chapter_head,"
+                      f"chapter.chapter_members,chapter.email,chapter.college_name,chapter.college_address,chapter.college_website, chapter.college_estd"
+                      f"FROM chapterinfo chapter WHERE chapter.id='{id}'").one()
+
+
+@router.post("/api/chapters/")
+def add_new_chapters(chapter: Chapterdetails, db: Session = Depends(get_db)):
+
+    #    For inserting and checking the entered college is already present in database or not in collegeinfo
+
+    college = db.execute(
+        f"SELECT COUNT(college_name) FROM collegeinfo WHERE college_name='{chapter.college_name}' AND college_website='{chapter.college_website}'").one()
+    college_id = int(''.join(map(str, college)))
+    if (college_id == 0):
+        db.execute(
+            f"INSERT INTO collegeinfo(college_name,college_address,college_website) VALUES ('{chapter.college_name}','{chapter.college_address}','{chapter.college_website}')")
+        db.commit()
+        college = db.execute(
+            f"SELECT college_id FROM collegeinfo WHERE college_website='{chapter.college_website}' AND college_name='{chapter.college_name}'").one()
+        college_id = int(''.join(map(str, college)))
+    else:
+        college = db.execute(f"SELECT college_id FROM collegeinfo WHERE college_website='{chapter.college_website}'").one()
+        college_id = int(''.join(map(str, college)))
+
+    # For inserting the chapter information into chaptersinfo
+
+    db.execute(
+        f"INSERT INTO chapterinfo( chapter_name, chapter_location, chapter_head,chapter_members,email, college_id, college_estd )  VALUES ('{chapter.chapter_name}','{chapter.chapter_location}','{chapter.chapter_head}','{chapter.chapter_members}','{chapter.email}','{college_id}','{chapter.college_estd}')"
+    )
+    db.commit()
