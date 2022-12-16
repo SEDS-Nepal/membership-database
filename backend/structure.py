@@ -118,3 +118,29 @@ class Updateaddress(SQLModel):
 
 class Memberdetails(InputAddress, InputCollege, InputSchool, InputJob, InputPerson, InputMember):
     form: Optional[str]
+
+class InputChapters(SQLModel):
+    chapter_name: str
+    chapter_location: str
+    chapter_head: str
+    chapter_members: int
+    email: str
+    college_estd: str
+
+
+class Chapters(InputChapters):
+    id: int
+    college_id: Optional[int]
+
+    class Config:
+        orm_mode: True
+
+class Chapterdetails(InputCollege, InputChapters):
+    form: Optional[str]
+
+class Updatechapters(SQLModel):
+    chapter_name: str | None = None
+    chapter_location: str | None = None
+    chapter_head: str | None = None
+    chapter_members: int | None = None
+    email: str | None = None
