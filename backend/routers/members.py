@@ -1,6 +1,6 @@
 import datetime
-
-from ..structure import Person, Member, Address, College, InputCollege, InputPerson, InputMember, InputAddress, Updatemember,Updateroledetails,Updatecollege,Updateaddress, Memberdetails
+from ..structure import Person, Member, Address, College, InputCollege, InputPerson, InputMember, InputAddress, \
+    Updatemember, Updateroledetails, Updatecollege, Updateaddress, Memberdetails, Chapterdetails
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from . import model
