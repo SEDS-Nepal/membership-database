@@ -26,18 +26,19 @@ def welcome():
 
 @router.get("/api/members/")
 def get_all_members(db: Session = Depends(get_db)) -> list:
-    return db.execute(
-        f"SELECT mem.id, mem.first_name,mem.middle_name,mem.last_name,mem.email,mem.education_level,mem.major,mem.number FROM memberinfo mem").all()
+    return db.query(model.Member.id,model.Member.first_name,model.Member.middle_name,model.Member.last_name,model.Member.email,model.Member.number,model.Member.major,model.Member.education_level).all()
 
 
 @router.get("/api/members/{id}")
 def get_members_by_id(id: int, db: Session = Depends(get_db)):
-    return db.execute(f"SELECT mem.id, mem.first_name,mem.middle_name,mem.last_name,mem.email,mem.education_level,mem.major,mem.number FROM memberinfo mem WHERE mem.id='{id}'").one()
-
+    try:
+        return db.query(model.Member.id,model.Member.first_name,model.Member.middle_name,model.Member.last_name,model.Member.email,model.Member.number,model.Member.major,model.Member.education_level).filter(model.Member.id==f"{id}").one()
+    except:
+        raise HTTPException(status_code=404,detail=f"No member with id = {id} found")
 
 @router.get("/api/colleges/")
 def get_colleges(db: Session = Depends(get_db)):
-    return db.execute(f"SELECT clz.college_name,clz.college_address,clz.college_website FROM collegeinfo clz").all()
+    return db.query(model.College.college_name,model.College.college_website,model.College.college_address).all()
 
 
 @router.get("/api/roledetails/")
@@ -47,24 +48,19 @@ def get_role_details(db: Session = Depends(get_db)):
 
 @router.get("/api/address/")
 def get_address(db: Session = Depends(get_db)):
-    return db.execute(f"SELECT city,province,postal_code FROM addressinfo").all()
+    return db.query(model.Address.city,model.Address.province,model.Address.postal_code).all()
 
 
 @router.get("/api/alldetails/")
 def get_all_details(db: Session = Depends(get_db)):
-    data= db.execute(f"SELECT mem.id,mem.first_name,mem.middle_name,mem.last_name,mem.email,mem.major,mem.number,"
-                      f"clz.college_name,clz.college_address,clz.college_website,prsn.personsid, prsn.position, "
-                      f"prsn.prsn_joined_date,adrs.city,adrs.province,adrs.postal_code, "
-                      f"scl.school_name,scl.school_address,scl.school_website,"
-                      f"jb.title,jb.company_name,jb.company_address "
-                      f"FROM memberinfo mem "
-                      f"INNER JOIN collegeinfo clz ON clz.college_id=mem.college_id "
-                      f"INNER JOIN roleinfo prsn ON prsn.personsid=mem.person_id "
-                      f"INNER JOIN addressinfo adrs ON adrs.address_id=mem.address_id "
-                      f"INNER JOIN schoolinfo scl ON scl.school_id=mem.school_id "
-                      f"INNER JOIN jobinfo jb ON jb.job_id=mem.job_id").all()
+    return db.query(model.Member.id, model.Member.first_name, model.Member.middle_name, model.Member.last_name,
+                    model.Member.email, model.Member.major, model.Member.number, model.Member.education_level,
+                    model.College.college_name,model.College.college_address,model.College.college_website,
+                    model.Person.personsid,model.Person.position,model.Person.prsn_joined_date,
+                    model.School.school_name,model.School.school_address,model.School.school_website,
+                    model.Job.title,model.Job.company_name,model.Job.company_address).filter(model.Member.college_id==model.College.college_id).filter(model.Member.person_id==model.Person.personsid).filter(
+                    model.Member.school_id==model.School.school_id).filter(model.Member.job_id==model.Job.job_id).all()
 
-    return data
 
 
 @router.patch("/api/update/member/")
