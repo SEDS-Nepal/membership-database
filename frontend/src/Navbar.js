@@ -26,6 +26,15 @@ const Navbar = () => {
                                 <li><Link className="dropdown-item" to="/club">Join as a club</Link></li>
                             </ul>
                         </li>
+                        <li className="nav-item dropdown">
+                            <Link className="nav-link dropdown-toggle" to="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Get Data
+                            </Link>
+                            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><Link className="dropdown-item" to="/membersdata">MEMBERSHIP DATA</Link></li>
+                                <li><Link className="dropdown-item" to="/chaptersdata">CHAPTER DATA</Link></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
