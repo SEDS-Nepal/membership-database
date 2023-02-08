@@ -95,8 +95,6 @@ def update_member(id:int, member:Updatemember,college:Updatecollege,address:Upda
                 if (value != "string"):
                     if (value != ""):
                         setattr(update_college, key, value)
-        # else:
-
     db.add(update_college)
     db.commit()
     db.refresh(update_college)
@@ -106,10 +104,9 @@ def update_member(id:int, member:Updatemember,college:Updatecollege,address:Upda
 @router.post("/api/members/")
 def add_new_members(member:Memberdetails,db:Session=Depends(get_db)):
     # For inserting the address in addressinfo
-    id = db.execute(
-        f"SELECT COUNT(address_id) FROM addressinfo WHERE postal_code='{member.postal_code}' AND city='{member.city}'").one()
-    addressId = int(''.join(map(str, id)))
+    addressId=db.query(model.Address.address_id).filter(model.Address.postal_code==member.postal_code).filter(model.Address.city==member.city).count()
     if (addressId == 0):
+
         db.execute(
             f"INSERT INTO addressinfo(city,province,postal_code) VALUES('{member.city}','{member.province}','{member.postal_code}')")
         db.commit()
