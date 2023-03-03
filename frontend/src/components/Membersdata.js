@@ -34,7 +34,7 @@ function Membersdata() {
     }, [people, sortDirection]);
 
     return (
-        <div className="main ">
+        <div className="main table_center">
             <table className="styled-table">
                 <thead>
                     <tr>

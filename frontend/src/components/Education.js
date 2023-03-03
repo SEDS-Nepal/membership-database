@@ -1,5 +1,8 @@
 import React from 'react'
-
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useState } from 'react';
+import { Hidden } from '@mui/material';
 let edu;
 function School({ formData, setFromData }) {
   return (
@@ -65,6 +68,37 @@ function School({ formData, setFromData }) {
 
 
 function College({ formData, setFromData  }) {
+  const [college, setCollege] = useState([]);
+  const [filteredData, setfilteredData] = useState([]);
+  const [searchWord, setSearchWord] = useState("");
+  const handleFilter = (event) => {
+     setSearchWord(event.target.value);
+    const newFilter = college.filter((value) => {
+      return value.college_name.toLowerCase().includes(searchWord.toLowerCase());
+    });
+    if (searchWord === "") {
+      setfilteredData([]);
+    }else{
+      setfilteredData(newFilter);
+    }
+    setFromData({ ...formData, college_name: event.target.value })
+  };
+
+  const onSearch = (searchTerm) => {
+    setSearchWord(searchTerm);
+    console.log('search' , searchTerm);
+    setFromData({ ...formData, college_name: searchTerm })
+  }
+
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/colleges/")
+        .then(response => {
+          setCollege(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}, []);
   return (
     <> 
     <div className="col-md-6">
@@ -76,10 +110,21 @@ function College({ formData, setFromData  }) {
         placeholder="College name"
         aria-label="College name"
         value={formData.college_name}
-        onChange={(event) =>
-          setFromData({ ...formData, college_name: event.target.value })}
+        onChange={handleFilter}
       />
+        
+          {filteredData.length != 0  &&(
+    <div className='dataResult'>
+    {filteredData.map(item => (
+                        <div className='dataItem '>
+                            <p onClick={()=> onSearch(item.college_name)}>{item.college_name}</p>
+                           
+                        </div>
+                    ))}
     </div>
+    )}
+    </div>
+
     <div className="col-md-6">
       <label htmlFor="inputCollegeAdress4" className="form-label">College Address</label>
       <input
