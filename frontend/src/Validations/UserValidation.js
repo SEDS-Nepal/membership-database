@@ -1,9 +1,9 @@
 import * as yup from 'yup';
 
 export const userSchema = yup.object().shape({
-    first_name: yup.string().required("Please enter your first name"),
+    first_name: yup.string().required(),
     middle_name:yup.string(),
-    last_name:yup.string().required("Please enter your last name"),
+    last_name:yup.string().required(),
     email:yup.string().email().required(),
     number:yup.number(10).required(),
     personsid: yup.number().required(),

@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useState } from 'react';
-import { Hidden } from '@mui/material';
+
 let edu;
 function School({ formData, setFromData }) {
   return (
@@ -78,16 +78,19 @@ function College({ formData, setFromData  }) {
     });
     if (searchWord === "") {
       setfilteredData([]);
-    }else{
+    }
+    else{
       setfilteredData(newFilter);
     }
-    setFromData({ ...formData, college_name: event.target.value })
+   
   };
 
   const onSearch = (searchTerm) => {
     setSearchWord(searchTerm);
     console.log('search' , searchTerm);
     setFromData({ ...formData, college_name: searchTerm })
+    var hide = document.getElementById('hide');
+    hide.style.display='none';
   }
 
   useEffect(() => {
@@ -112,8 +115,8 @@ function College({ formData, setFromData  }) {
         value={formData.college_name}
         onChange={handleFilter}
       />
-        
-          {filteredData.length != 0  &&(
+      <div id='hide'>
+    {filteredData.length !== 0  &&(
     <div className='dataResult'>
     {filteredData.map(item => (
                         <div className='dataItem '>
@@ -121,10 +124,11 @@ function College({ formData, setFromData  }) {
                            
                         </div>
                     ))}
+                    
     </div>
     )}
+    </div>  
     </div>
-
     <div className="col-md-6">
       <label htmlFor="inputCollegeAdress4" className="form-label">College Address</label>
       <input
@@ -177,6 +181,7 @@ function College({ formData, setFromData  }) {
           setFromData({ ...formData, college_website: event.target.value })}
       />
     </div> 
+  
     </>
   )
 }
