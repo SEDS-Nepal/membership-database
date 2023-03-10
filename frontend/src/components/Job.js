@@ -11,6 +11,7 @@ function Job({ formData, setFromData}) {
           <input
             type="text"
             className="form-control"
+            id='inputCompanyName4'
             placeholder="Company name"
             aria-label="Company name"
             value={formData.company_name}
@@ -24,6 +25,7 @@ function Job({ formData, setFromData}) {
           <input
             type="text"
             className="form-control"
+            id='inputCompanyAdress4'
             placeholder="Company Address"
             aria-label="Company Address"
             value={formData.company_address}
@@ -37,6 +39,7 @@ function Job({ formData, setFromData}) {
           <input
             type="text"
             className="form-control"
+            id='inputPosition4'
             placeholder="Position "
             aria-label="Position "
             value={formData.position}
@@ -50,7 +53,7 @@ function Job({ formData, setFromData}) {
           <input
             type="text"
             className="form-control"
-            id="Linkedin ID"
+            id="inputLinkedinid4"
             placeholder="Linkedin ID"
             value={formData.linkedinId}
             onChange={(event) =>
